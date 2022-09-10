@@ -8,7 +8,11 @@ public class MonthlyReport {
     private static final int MONTH_AMOUNT = 12;
     List<MonthlyRecord> recordList;
 
-    public List<MonthlyReport> getAllMonthlyReports() {
+    public MonthlyReport(List<MonthlyRecord> recordList) {
+        this.recordList = recordList;
+    }
+
+    public static void getAllMonthlyReports() {
         List<MonthlyReport> monthlyReports = new ArrayList<>();
 
         for (int i = 1; i <= MONTH_AMOUNT; i++) {
@@ -23,17 +27,16 @@ public class MonthlyReport {
                 monthlyReports.add(monthlyReport);
             }
         }
-        return monthlyReports;
+
     }
 
     public static String getMonthInfo() {
         String result = "";
-
-
+        return result;
     }
 
 
-    private MonthlyReport createMonthlyReport(String monthlyReportRaw) {
+    private static MonthlyReport createMonthlyReport(String monthlyReportRaw) {
         String[] lines = monthlyReportRaw.split("\n");
 
         List<MonthlyRecord> recordList = new ArrayList<>();

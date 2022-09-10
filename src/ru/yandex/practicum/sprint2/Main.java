@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        MonthlyReport monthlyReport = new MonthlyReport();
+        ReportProvider provider = new ReportProvider();
         int command = -1;
 
         while (command!= 0 ) {
@@ -15,7 +15,7 @@ public class Main {
             command = scanner.nextInt();
 
             switch (command) {
-                case 1 -> monthlyReport;
+                case 1 -> ;
                 case 0 -> System.out.println("До встречи!");
                 default -> System.out.println("Введено некорректное значение.");
             }
