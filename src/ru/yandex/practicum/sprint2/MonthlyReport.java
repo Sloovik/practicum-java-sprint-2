@@ -3,30 +3,37 @@ package ru.yandex.practicum.sprint2;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class MonthlyReport {
-    static List<MonthlyRecord> recordList;
 
+    private static final int MONTH_AMOUNT = 12;
+    List<MonthlyRecord> recordList;
 
-
-    public MonthlyReport(List<MonthlyRecord> recordList) {
-        this.recordList = recordList;
-    }
-
-
-
-    public static void addMonthlyReport() {
+    public List<MonthlyReport> getAllMonthlyReports() {
         List<MonthlyReport> monthlyReports = new ArrayList<>();
-        for (int i = 1; i <= 3; i++) {
-            String monthlyReportRaw = Utils.readFileContentsOrNull("resources/m.20210" + i + ".csv");
-            MonthlyReport monthlyReport = createReport(monthlyReportRaw);
-            monthlyReports.add(monthlyReport);
+
+        for (int i = 1; i <= MONTH_AMOUNT; i++) {
+            String monthlyReportRaw = "";
+            if (i < 10) {
+                monthlyReportRaw = Utils.readFileContentsOrNull("resources/m.20210" + i + ".csv");
+            } else {
+                monthlyReportRaw = Utils.readFileContentsOrNull("resources/m.2021" + i + ".csv");
+            }
+            if (monthlyReportRaw != null) {
+                MonthlyReport monthlyReport = createMonthlyReport(monthlyReportRaw);
+                monthlyReports.add(monthlyReport);
+            }
         }
+        return monthlyReports;
+    }
+
+    public static String getMonthInfo() {
+        String result = "";
+
+
     }
 
 
-
-    private static MonthlyReport createReport(String monthlyReportRaw) {
+    private MonthlyReport createMonthlyReport(String monthlyReportRaw) {
         String[] lines = monthlyReportRaw.split("\n");
 
         List<MonthlyRecord> recordList = new ArrayList<>();
@@ -40,7 +47,6 @@ public class MonthlyReport {
                     Integer.parseInt(lineContents[3])
             );
             recordList.add(record);
-            System.out.println(record);
         }
 
         return new MonthlyReport(recordList);
