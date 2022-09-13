@@ -11,7 +11,7 @@ public class YearlyReport {
         this.recordList = recordList;
     }
 
-    private static YearlyReport getYearlyReport() {
+    public static YearlyReport getYearlyReport() {
         String yearlyReportRaw = Utils.readFileContentsOrNull("resources/y.2021.csv");
         YearlyReport yearlyReport = null;
         if (yearlyReportRaw != null) {

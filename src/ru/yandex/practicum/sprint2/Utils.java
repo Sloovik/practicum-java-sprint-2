@@ -14,8 +14,13 @@ public class Utils {
         }
     }
 
-    public static String getMonthName(int monthNumber) {
-
+  public static String getMonthName(int monthNumber) {
+        return switch (monthNumber) {
+            case 1 -> "Январь.";
+            case 2 -> "Январь.";
+            case 3 -> "Январь.";
+            default -> "";
+        };
     }
 
 }

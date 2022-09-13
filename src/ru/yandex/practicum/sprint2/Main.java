@@ -15,7 +15,9 @@ public class Main {
             command = scanner.nextInt();
 
             switch (command) {
-                case 1 -> ;
+                case 1 -> provider.getAllMonthlyReports();
+                case 2 -> provider.getYearlyReport();
+                case 4 -> provider.getMonthInfo();
                 case 0 -> System.out.println("До встречи!");
                 default -> System.out.println("Введено некорректное значение.");
             }

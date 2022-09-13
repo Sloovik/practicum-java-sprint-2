@@ -5,35 +5,29 @@ import java.util.List;
 
 public class MonthlyReport {
 
-    private static final int MONTH_AMOUNT = 12;
+    private static final int MONTH_AMOUNT = 3;
     List<MonthlyRecord> recordList;
 
     public MonthlyReport(List<MonthlyRecord> recordList) {
         this.recordList = recordList;
     }
 
-    public static void getAllMonthlyReports() {
+    public static List<MonthlyReport> getAllMonthlyReports() {
         List<MonthlyReport> monthlyReports = new ArrayList<>();
 
         for (int i = 1; i <= MONTH_AMOUNT; i++) {
-            String monthlyReportRaw = "";
-            if (i < 10) {
-                monthlyReportRaw = Utils.readFileContentsOrNull("resources/m.20210" + i + ".csv");
-            } else {
-                monthlyReportRaw = Utils.readFileContentsOrNull("resources/m.2021" + i + ".csv");
-            }
+
+            String monthlyReportRaw = Utils.readFileContentsOrNull("resources/m.20210" + i + ".csv");
+
             if (monthlyReportRaw != null) {
                 MonthlyReport monthlyReport = createMonthlyReport(monthlyReportRaw);
                 monthlyReports.add(monthlyReport);
             }
         }
-
+        return monthlyReports;
     }
 
-    public static String getMonthInfo() {
-        String result = "";
-        return result;
-    }
+
 
 
     private static MonthlyReport createMonthlyReport(String monthlyReportRaw) {
@@ -54,6 +48,57 @@ public class MonthlyReport {
 
         return new MonthlyReport(recordList);
 
+    }
+
+    public String getMostProfitableItem() {
+
+        int mostProfit = 0;
+        MonthlyRecord maxProfitRecord = null;
+
+        if (recordList != null) {
+            for (int i = 0; i < recordList.size(); i++) {
+                MonthlyRecord record = recordList.get(i);
+
+                if (!record.isExpense) {
+                    int currentProfit = record.quantity * record.sumOfOne;
+
+                    if (currentProfit > mostProfit) {
+                        mostProfit = currentProfit;
+                        maxProfitRecord = record;
+                    }
+
+                }
+            }
+            return String.valueOf("ћаксимально прибыльный товар: " + maxProfitRecord.itemName
+                    + " с прибылью " + mostProfit);
+        } else {
+            return "";
+        }
+    }
+
+    public String getMostExpense() {
+
+        int mostExpense = 0;
+        MonthlyRecord mostExpenseRecord = null;
+
+        if (recordList != null) {
+            for (int i = 0; i < recordList.size(); i++) {
+                MonthlyRecord record = recordList.get(i);
+
+                if (record.isExpense) {
+                    int currentExpense = record.quantity * record.sumOfOne;
+
+                    if (currentExpense > mostExpense) {
+                        mostExpense = currentExpense;
+                        mostExpenseRecord = record;
+                    }
+                }
+            }
+            return String.valueOf("—ама€ больша€ трата: " + mostExpenseRecord.itemName
+                    + ", потрачено: " + mostExpense + " руб.");
+        } else {
+            return "";
+        }
     }
 
 
