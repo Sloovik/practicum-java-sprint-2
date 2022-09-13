@@ -27,7 +27,7 @@ public class ReportProvider {
         if (monthlyReports == null) {
             System.out.println("Сначала заполните данные");
         } else {
-            for (int i = 1; i <= monthlyReports.size(); i++) {
+            for (int i = 0; i < monthlyReports.size(); i++) {
                 MonthlyReport report = monthlyReports.get(i);
 
                 String monthName = Utils.getMonthName(i);
