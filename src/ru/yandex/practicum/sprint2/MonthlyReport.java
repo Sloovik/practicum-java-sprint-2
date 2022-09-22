@@ -56,9 +56,7 @@ public class MonthlyReport {
         MonthlyRecord maxProfitRecord = null;
 
         if (recordList != null) {
-            for (int i = 0; i < recordList.size(); i++) {
-                MonthlyRecord record = recordList.get(i);
-
+            for (MonthlyRecord record : recordList) {
                 if (!record.isExpense) {
                     int currentProfit = record.quantity * record.sumOfOne;
 
@@ -69,8 +67,8 @@ public class MonthlyReport {
 
                 }
             }
-            return String.valueOf("Ìàêñèìàëüíî ïðèáûëüíûé òîâàð: " + maxProfitRecord.itemName
-                    + " ñ ïðèáûëüþ " + mostProfit);
+            return "ÐœÐ°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð¾ Ð¿Ñ€Ð¸Ð±Ñ‹Ð»ÑŒÐ½Ñ‹Ð¹ Ñ‚Ð¾Ð²Ð°Ñ€: " + maxProfitRecord.itemName
+                    + " Ñ Ð¿Ñ€Ð¸Ð±Ñ‹Ð»ÑŒÑŽ " + mostProfit;
         } else {
             return "";
         }
@@ -82,9 +80,7 @@ public class MonthlyReport {
         MonthlyRecord mostExpenseRecord = null;
 
         if (recordList != null) {
-            for (int i = 0; i < recordList.size(); i++) {
-                MonthlyRecord record = recordList.get(i);
-
+            for (MonthlyRecord record : recordList) {
                 if (record.isExpense) {
                     int currentExpense = record.quantity * record.sumOfOne;
 
@@ -94,8 +90,8 @@ public class MonthlyReport {
                     }
                 }
             }
-            return String.valueOf("Ñàìàÿ áîëüøàÿ òðàòà: " + mostExpenseRecord.itemName
-                    + ", ïîòðà÷åíî: " + mostExpense + " ðóá.");
+            return "Ð¡Ð°Ð¼Ð°Ñ Ð±Ð¾Ð»ÑŒÑˆÐ°Ñ Ñ‚Ñ€Ð°Ñ‚Ð°: " + mostExpenseRecord.itemName
+                    + ", Ð¿Ð¾Ñ‚Ñ€Ð°Ñ‡ÐµÐ½Ð¾: " + mostExpense + " Ñ€ÑƒÐ±.";
         } else {
             return "";
         }

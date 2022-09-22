@@ -1,6 +1,7 @@
 package ru.yandex.practicum.sprint2;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -16,11 +17,13 @@ public class Utils {
 
   public static String getMonthName(int monthNumber) {
         return switch (monthNumber) {
-            case 0 -> "Январь.";
-            case 1 -> "Февраль.";
-            case 2 -> "Март.";
+            case 0 -> "Январь";
+            case 1 -> "Февраль";
+            case 2 -> "Март";
             default -> "";
         };
     }
+
+
 
 }

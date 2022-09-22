@@ -37,6 +37,6 @@ public class YearlyReport {
 
         return new YearlyReport(recordList);
     }
-
 }
+
 

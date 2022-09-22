@@ -11,21 +11,21 @@ public class ReportProvider {
 
     public void getAllMonthlyReports() {
         monthlyReports = MonthlyReport.getAllMonthlyReports();
-        System.out.println("biba.");
-//        System.out.println("Все месячные отчеты успешно загружены.");
+        System.out.println(".");
+//        System.out.println("пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.");
         System.out.println(monthlyReports.size());
     }
 
     public void getYearlyReport() {
         yearlyReport = YearlyReport.getYearlyReport();
-        System.out.println("boba.");
-        //System.out.println("Годовой отчет успешно загружен.");
+        System.out.println(".");
+        //System.out.println("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.");
         System.out.println(yearlyReport.recordList.size());
     }
 
     public void getMonthInfo() {
         if (monthlyReports == null) {
-            System.out.println("Сначала заполните данные");
+            System.out.println("РЎРЅР°С‡Р°Р»Р° Р·Р°РїРѕР»РЅРёС‚Рµ РґР°РЅРЅС‹Рµ");
         } else {
             for (int i = 0; i < monthlyReports.size(); i++) {
                 MonthlyReport report = monthlyReports.get(i);
@@ -33,8 +33,8 @@ public class ReportProvider {
                 String monthName = Utils.getMonthName(i);
                 String mostProfitable = report.getMostProfitableItem();
                 String mostExpense = report.getMostExpense();
-                System.out.println("Месяц: " + monthName + ".\n Самый дорогой товар: " +
-                        mostProfitable + ".\n Самая большая трата: " + mostExpense);
+                System.out.println("РњРµСЃСЏС†: " + monthName + ".\n РЎР°РјС‹Р№ РІС‹РіРѕРґРЅС‹Р№ С‚РѕРІР°СЂ: " +
+                        mostProfitable + ".\n РЎР°РјР°СЏ Р±РѕР»СЊС€Р°СЏ С‚СЂР°С‚Р°: " + mostExpense);
             }
         }
     }
