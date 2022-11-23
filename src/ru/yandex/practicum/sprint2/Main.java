@@ -1,23 +1,24 @@
 package ru.yandex.practicum.sprint2;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ReportProvider provider = new ReportProvider();
+        MonthlyReport month = new MonthlyReport();
+        YearlyReport year = new YearlyReport();
         int command = -1;
 
-        while (command!= 0 ) {
+        while (command != 0) {
             printMenu();
             command = scanner.nextInt();
 
             switch (command) {
-                case 1 -> provider.getAllMonthlyReports();
-                case 2 -> provider.getYearlyReport();
-                case 4 -> provider.getMonthInfo();
+                case 1 -> month.getAllMonthlyReports();
+                case 2 -> year.getYearlyReport();
+                case 3 -> ComparingReports.compareReports(month, year);
+                case 4 -> month.printReportsSummary();
+                case 5 -> year.printReport();
                 case 0 -> System.out.println("До встречи!");
                 default -> System.out.println("Введено некорректное значение.");
             }

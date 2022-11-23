@@ -1,101 +1,107 @@
+/**
+ * Класс с реализацией основной логики для работы с месячными отчетами.
+ */
+
 package ru.yandex.practicum.sprint2;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class MonthlyReport {
 
     private static final int MONTH_AMOUNT = 3;
-    List<MonthlyRecord> recordList;
 
-    public MonthlyReport(List<MonthlyRecord> recordList) {
-        this.recordList = recordList;
-    }
 
-    public static List<MonthlyReport> getAllMonthlyReports() {
-        List<MonthlyReport> monthlyReports = new ArrayList<>();
+    public HashMap<Integer, ArrayList<MonthlyReportLine>> monthlyReportsMap = new HashMap<>();
+
+    public void getAllMonthlyReports() {
+
 
         for (int i = 1; i <= MONTH_AMOUNT; i++) {
 
             String monthlyReportRaw = Utils.readFileContentsOrNull("resources/m.20210" + i + ".csv");
 
-            if (monthlyReportRaw != null) {
-                MonthlyReport monthlyReport = createMonthlyReport(monthlyReportRaw);
-                monthlyReports.add(monthlyReport);
+            ArrayList<MonthlyReportLine> importMonth;
+            importMonth = createMonthlyReport(monthlyReportRaw);
+            if (importMonth != null) {
+                monthlyReportsMap.put(i, importMonth);
+            } else {
+                System.out.println("Отчет за месяц " + i + " не был загружен.");
+            }
+
+        }
+    }
+
+    public void printReportsSummary() {
+        if (monthlyReportsMap.isEmpty()) {
+            System.out.println("Загрузите отчёты.");
+        } else {
+            for (Integer month : monthlyReportsMap.keySet()) {
+                int monthMaxIncome = 0;
+                int monthMaxExpense = 0;
+                String monthMaxIncomeName = "";
+                String monthMaxExpenseName = "";
+                for (MonthlyReportLine reportLineToCompare : monthlyReportsMap.get(month)) {
+                    if (!reportLineToCompare.isExpense) {
+                        int comparingLineSum = reportLineToCompare.quantity * reportLineToCompare.sumOfOne;
+                        if (comparingLineSum > monthMaxIncome) {
+                            monthMaxIncome = comparingLineSum;
+                            monthMaxIncomeName = reportLineToCompare.itemName;
+                        }
+                    } else {
+                        int comparingLineSumExp = reportLineToCompare.quantity * reportLineToCompare.sumOfOne;
+                        if (comparingLineSumExp > monthMaxExpense) {
+                            monthMaxExpense = comparingLineSumExp;
+                            monthMaxExpenseName = reportLineToCompare.itemName;
+                        }
+                    }
+                }
+                System.out.println(Month.getMonthName(month) + ": " + "Самый прибыльный товар: "
+                        + monthMaxIncomeName + ", с доходом " + monthMaxIncome + "\n" + "Самая большая трата: "
+                        + monthMaxExpenseName + " с расходом " + monthMaxExpense);
             }
         }
-        return monthlyReports;
     }
 
 
-
-
-    private static MonthlyReport createMonthlyReport(String monthlyReportRaw) {
+    private ArrayList<MonthlyReportLine> createMonthlyReport(String monthlyReportRaw) {
         String[] lines = monthlyReportRaw.split("\n");
 
-        List<MonthlyRecord> recordList = new ArrayList<>();
+        ArrayList<MonthlyReportLine> monthReportArrayList = new ArrayList<>();
         for (int i = 1; i < lines.length; i++) {
             String[] lineContents = lines[i].split(",");
 
-            MonthlyRecord record = new MonthlyRecord(
-                    lineContents[0],
-                    Boolean.parseBoolean(lineContents[1]),
-                    Integer.parseInt(lineContents[2]),
-                    Integer.parseInt(lineContents[3])
-            );
-            recordList.add(record);
-        }
+            MonthlyReportLine readLineFromFile = new MonthlyReportLine();
+            readLineFromFile.itemName = lineContents[0];
+            readLineFromFile.isExpense = Boolean.parseBoolean(lineContents[1]);
+            readLineFromFile.quantity = Integer.parseInt(lineContents[2]);
+            readLineFromFile.sumOfOne = Integer.parseInt(lineContents[3]);
 
-        return new MonthlyReport(recordList);
+            monthReportArrayList.add(readLineFromFile);
+            System.out.println(monthReportArrayList);
+        }
+        return monthReportArrayList;
 
     }
 
-    public String getMostProfitableItem() {
-
-        int mostProfit = 0;
-        MonthlyRecord maxProfitRecord = null;
-
-        if (recordList != null) {
-            for (MonthlyRecord record : recordList) {
-                if (!record.isExpense) {
-                    int currentProfit = record.quantity * record.sumOfOne;
-
-                    if (currentProfit > mostProfit) {
-                        mostProfit = currentProfit;
-                        maxProfitRecord = record;
-                    }
-
-                }
+    public int getMonthlyTotalIncome(int month) {
+        int totalIncome = 0;
+        for (MonthlyReportLine monthlyRecord : monthlyReportsMap.get(month)) {
+            if (!monthlyRecord.isExpense) {
+                totalIncome += monthlyRecord.quantity * monthlyRecord.sumOfOne;
             }
-            return "Максимально прибыльный товар: " + maxProfitRecord.itemName
-                    + " с прибылью " + mostProfit;
-        } else {
-            return "";
         }
+        return totalIncome;
     }
 
-    public String getMostExpense() {
-
-        int mostExpense = 0;
-        MonthlyRecord mostExpenseRecord = null;
-
-        if (recordList != null) {
-            for (MonthlyRecord record : recordList) {
-                if (record.isExpense) {
-                    int currentExpense = record.quantity * record.sumOfOne;
-
-                    if (currentExpense > mostExpense) {
-                        mostExpense = currentExpense;
-                        mostExpenseRecord = record;
-                    }
-                }
+    public int getMonthlyTotalOutcome(int month) {
+        int totalOutcome = 0;
+        for (MonthlyReportLine monthlyRecord : monthlyReportsMap.get(month)) {
+            if (monthlyRecord.isExpense) {
+                totalOutcome += monthlyRecord.quantity * monthlyRecord.sumOfOne;
             }
-            return "Самая большая трата: " + mostExpenseRecord.itemName
-                    + ", потрачено: " + mostExpense + " руб.";
-        } else {
-            return "";
         }
+        return totalOutcome;
     }
-
 
 }
