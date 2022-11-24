@@ -14,14 +14,14 @@ public class YearlyReport {
     public void getYearlyReport() {
         String yearlyReportRaw = Utils.readFileContentsOrNull("resources/y.2021.csv");
         ArrayList<YearlyReportLine> importYear;
-        importYear = createYearlyReport(yearlyReportRaw);
-        if (importYear != null) {
+
+        if (yearlyReportRaw != null) {
+            importYear = createYearlyReport(yearlyReportRaw);
             yearlyReport = importYear;
+            System.out.println("Годовой отчет успешно загружен!");
         } else {
-            System.out.println("Отчет за год не был загружен.");
+            System.out.println("Ошибка. Возможно, неверно указан путь, либо необходимые файлы отсутствуют.");
         }
-
-
     }
 
     private ArrayList<YearlyReportLine> createYearlyReport(String yearlyReportRaw) {
@@ -39,7 +39,6 @@ public class YearlyReport {
             readLineFromFile.isExpense = Boolean.parseBoolean(lineContents[2]);
 
             yearReportArrayList.add(readLineFromFile);
-            System.out.println(yearReportArrayList);
         }
         return yearReportArrayList;
     }

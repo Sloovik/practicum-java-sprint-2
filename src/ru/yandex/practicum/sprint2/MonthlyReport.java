@@ -21,15 +21,16 @@ public class MonthlyReport {
 
             String monthlyReportRaw = Utils.readFileContentsOrNull("resources/m.20210" + i + ".csv");
 
-            ArrayList<MonthlyReportLine> importMonth;
-            importMonth = createMonthlyReport(monthlyReportRaw);
-            if (importMonth != null) {
+            if (monthlyReportRaw != null) {
+                ArrayList<MonthlyReportLine> importMonth = createMonthlyReport(monthlyReportRaw);
                 monthlyReportsMap.put(i, importMonth);
-            } else {
-                System.out.println("Отчет за месяц " + i + " не был загружен.");
-            }
+                System.out.println("Месячный отчёт №" + i + " успешно загружен!");
 
+            } else {
+                System.out.println("Ошибка. Возможно, неверно указан путь, либо необходимые файлы отсутствуют.");
+            }
         }
+
     }
 
     public void printReportsSummary() {
@@ -78,9 +79,9 @@ public class MonthlyReport {
             readLineFromFile.sumOfOne = Integer.parseInt(lineContents[3]);
 
             monthReportArrayList.add(readLineFromFile);
-            System.out.println(monthReportArrayList);
         }
         return monthReportArrayList;
+
 
     }
 
